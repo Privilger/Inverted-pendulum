@@ -296,7 +296,11 @@ void Find_Zero(void)
 							else	Moto=-Balance_Pwm+Position_Pwm;     //读取PD控制器输出PWM
 							if(Angle_Balance<(ANGLE_ORIGIN+300)&&Angle_Balance>(ANGLE_ORIGIN-300)&&(position_A>(POSITION_MIDDLE-2000)&&position_A<(POSITION_MIDDLE+2000)))  count++;
 					  	if(Angle_Balance<(ANGLE_ORIGIN+300)&&Angle_Balance>(ANGLE_ORIGIN-300))count+=0.1;
-							if(count>200)	Flag_Stop=0,Run_Way=1,flag=0,Moto=0,Target_Position=POSITION_MIDDLE-18000,count=0;//摆杆运动到中间位置，停止
+							if(count>200){
+								Flag_Stop=0,flag=0,Moto=0,Target_Position=POSITION_MIDDLE-18000,count=0;//摆杆运动到中间位置，停止
+								if(m_pwm_target == -1) Run_Way=1;
+								else if(m_pwm_target == -2) Run_Way=3;
+							}	
 				 }
 				  if(Moto>2500)	Moto=2500;   //控制位置闭环控制过程的速度
 					if(Moto<-2500)Moto=-2500;

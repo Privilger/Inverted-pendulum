@@ -3,7 +3,7 @@
 ..\obj\show.o: ..\SYSTEM\sys\sys.h
 ..\obj\show.o: ..\USER\stm32f10x.h
 ..\obj\show.o: ..\CORE\core_cm3.h
-..\obj\show.o: D:\software\MDK5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\show.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
 ..\obj\show.o: ..\USER\system_stm32f10x.h
 ..\obj\show.o: ..\USER\stm32f10x_conf.h
 ..\obj\show.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
@@ -33,7 +33,7 @@
 ..\obj\show.o: ..\SYSTEM\delay\delay.h
 ..\obj\show.o: ..\SYSTEM\sys\sys.h
 ..\obj\show.o: ..\SYSTEM\usart\usart.h
-..\obj\show.o: D:\software\MDK5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\show.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h
 ..\obj\show.o: ..\minibalance\SHOW\show.h
 ..\obj\show.o: ..\HARDWARE\KEY\key.h
 ..\obj\show.o: ..\HARDWARE\LED\led.h
@@ -43,7 +43,7 @@
 ..\obj\show.o: ..\HARDWARE\ENCODER\encoder.h
 ..\obj\show.o: ..\HARDWARE\MOTOR\motor.h
 ..\obj\show.o: ..\HARDWARE\ADC\adc.h
-..\obj\show.o: D:\software\MDK5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\show.o: D:\software\MDK5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\show.o: D:\software\MDK5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\show.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\string.h
+..\obj\show.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdlib.h
+..\obj\show.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\math.h
 ..\obj\show.o: ..\minibalance\DataScope_DP\DataScope_DP.h

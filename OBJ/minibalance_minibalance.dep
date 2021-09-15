@@ -1238,7 +1238,7 @@ I (D:\software\MDK5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (D:\software\MDK5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (D:\software\MDK5\ARM\ARMCC\include\math.h)(0x60252378)
 I (..\minibalance\DataScope_DP\DataScope_DP.h)(0x5546F78E)
-F (..\SYSTEM\usart\usart.c)(0x6127805D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIM -I ..\SYSTEM\usart -I ..\HARDWARE\EXTI -I ..\HARDWARE\ENCODER -I ..\HARDWARE\MOTOR -I ..\HARDWARE\ADC -I ..\minibalance\SHOW -I ..\HARDWARE\OLED -I ..\minibalance\CONTR -I ..\minibalance\DataScope_DP-ID:\software\MDK5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\software\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="535" -DSTM32F10X_MD -DSTM32F10x_M -DUSE_STDPERIPH_DRIVER-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
+F (..\SYSTEM\usart\usart.c)(0x61370DC5)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIM -I ..\SYSTEM\usart -I ..\HARDWARE\EXTI -I ..\HARDWARE\ENCODER -I ..\HARDWARE\MOTOR -I ..\HARDWARE\ADC -I ..\minibalance\SHOW -I ..\HARDWARE\OLED -I ..\minibalance\CONTR -I ..\minibalance\DataScope_DP-ID:\software\MDK5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\software\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="535" -DSTM32F10X_MD -DSTM32F10x_M -DUSE_STDPERIPH_DRIVER-o ..\obj\usart.o --omf_browse ..\obj\usart.crf --depend ..\obj\usart.d)
 I (..\SYSTEM\sys\sys.h)(0x6127805D)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -1330,7 +1330,7 @@ I (D:\software\MDK5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (D:\software\MDK5\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (D:\software\MDK5\ARM\ARMCC\include\math.h)(0x60252378)
 I (..\minibalance\DataScope_DP\DataScope_DP.h)(0x5546F78E)
-F (..\minibalance\CONTR\control.c)(0x6127805D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIM -I ..\SYSTEM\usart -I ..\HARDWARE\EXTI -I ..\HARDWARE\ENCODER -I ..\HARDWARE\MOTOR -I ..\HARDWARE\ADC -I ..\minibalance\SHOW -I ..\HARDWARE\OLED -I ..\minibalance\CONTR -I ..\minibalance\DataScope_DP-ID:\software\MDK5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\software\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="535" -DSTM32F10X_MD -DSTM32F10x_M -DUSE_STDPERIPH_DRIVER-o ..\obj\control.o --omf_browse ..\obj\control.crf --depend ..\obj\control.d)
+F (..\minibalance\CONTR\control.c)(0x61370D7A)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIM -I ..\SYSTEM\usart -I ..\HARDWARE\EXTI -I ..\HARDWARE\ENCODER -I ..\HARDWARE\MOTOR -I ..\HARDWARE\ADC -I ..\minibalance\SHOW -I ..\HARDWARE\OLED -I ..\minibalance\CONTR -I ..\minibalance\DataScope_DP-ID:\software\MDK5\ARM\PACK\Keil\STM32F1xx_DFP\2.3.0\Device\Include-ID:\software\MDK5\ARM\CMSIS\Include-D__UVISION_VERSION="535" -DSTM32F10X_MD -DSTM32F10x_M -DUSE_STDPERIPH_DRIVER-o ..\obj\control.o --omf_browse ..\obj\control.crf --depend ..\obj\control.d)
 I (..\minibalance\CONTR\control.h)(0x6126349B)
 I (..\SYSTEM\sys\sys.h)(0x6127805D)
 I (..\USER\stm32f10x.h)(0x4D783CB4)
