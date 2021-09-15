@@ -1,8 +1,6 @@
 #include "sys.h"
 u8 Flag_Stop=1,delay_50,delay_flag,Run_Way=0,Inverted_Flag,Move_Direction;             //停止标志位 50ms精准演示标志位
-long Encoder_A,position_A=165000,Position_Zero=165000; //编码器的脉冲计数
-long position_A_last = 200000;
-long ecd_speed = 0;
+long Encoder_A,position_A=200000,Position_Zero=220000; //编码器的脉冲计数
 long Encoder_B,position_B=200000;                      //编码器的脉冲计数
 int Moto,Balance_Pwm,Position_Pwm;              //电机PWM变量 应是Motor的 向Moto致敬	
 int Voltage;                                    //电池电压采样相关的变量

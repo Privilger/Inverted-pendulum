@@ -38,9 +38,7 @@ void oled_show(void)
 	OLED_ShowNumber(55,40,Angle_Balance,4,12);  //第五行
 	 
 	OLED_ShowString(0,50,"T:");                 //第六行
-	//OLED_ShowNumber(15,50,Position_Zero,6,12);  //第六行
-	OLED_ShowNumber(15,50,m_position_taiget,6,12);  //第六行
-								 
+	OLED_ShowNumber(15,50,Position_Zero,6,12);  //第六行
 	OLED_ShowString(55,50,"P:");                //第六行
 	OLED_ShowNumber(75,50,position_A,6,12);     //第六行
 	delay_ms(50);
@@ -57,15 +55,14 @@ void DataScope(void)
 		DataScope_Get_Channel_Data( Angle_Balance, 1 );      
 		DataScope_Get_Channel_Data( D_Angle_Balance, 2 );         
 		DataScope_Get_Channel_Data( position_A, 3 );              
-		DataScope_Get_Channel_Data( ecd_speed , 4 );  
-    
-		DataScope_Get_Channel_Data( (long)Inverted_Flag, 5 ); //用您要显示的数据替换0就行了
+//		DataScope_Get_Channel_Data( 0 , 4 );   
+//		DataScope_Get_Channel_Data(0, 5 ); //用您要显示的数据替换0就行了
 //		DataScope_Get_Channel_Data(0 , 6 );//用您要显示的数据替换0就行了
 //		DataScope_Get_Channel_Data(0, 7 );
 //		DataScope_Get_Channel_Data( 0, 8 ); 
 //		DataScope_Get_Channel_Data(0, 9 );  
 //		DataScope_Get_Channel_Data( 0 , 10);
-		Send_Count = DataScope_Data_Generate(5);
+		Send_Count = DataScope_Data_Generate(3);
 		for( i = 0 ; i < Send_Count; i++) 
 		{
 		while((USART1->SR&0X40)==0);  

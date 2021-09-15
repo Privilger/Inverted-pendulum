@@ -1,7 +1,5 @@
 #include "sys.h"
 #include "usart.h"	  
-u32 m_position_taiget = 220000;
-int m_pwm_target = -1;
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -104,32 +102,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			if(USART_RX_STA&0x4000)//接收到了0x0d
 				{
 				if(Res!=0x0a)USART_RX_STA=0;//接收错误,重新开始
-				else{
-					USART_RX_STA|=0x8000;	//接收完成了 
-					//m_position_taiget = USART_RX_BUF[0]|(USART_RX_BUF[1]<<8)|(USART_RX_BUF[2]<<16)|(USART_RX_BUF[3]<<24);
-					m_pwm_target = USART_RX_BUF[0]|(USART_RX_BUF[1]<<8)|(USART_RX_BUF[2]<<16)|(USART_RX_BUF[3]<<24);
-					if(m_pwm_target == -1||m_pwm_target == -2){
-						Flag_Stop = 1;
-						Run_Way = 0;
-						flag = 0;
-						count = 0;
-						Inverted_Flag = 0;
-						Ratio_Count = 0;
-					}
-//					else if(m_pwm_target == -2){
-//						Flag_Stop = 1; //关闭手动模式
-//						Run_Way = 0;
-//						flag = 0;//开启寻零
-//						count = 0;//清除中位技术
-//					}
-					else{
-						Flag_Stop = 0;
-						Run_Way = 2;
-						flag = 0;
-					}
-					USART_RX_STA= 0;
-				} 
-				
+				else USART_RX_STA|=0x8000;	//接收完成了 
 				}
 			else //还没收到0X0D
 				{	

@@ -8,9 +8,6 @@ u8 Flag_Target,Position_Target;
 long Run_Way_Count1,Run_Way_Count2,Run_Way_Flag2,Inverted_Count,Inverted_Count2,Run_Way_Flag1;
 long Target_Position,D_Count;
 float Ratio=1,Basics_Position_KD=0,Basics_Position_KP=0;
-float count;
-float Ratio_Count = 0;
-u8 flag = 0;
 void TIM3_IRQHandler(void)    //TIM3定时中断服务函数
 {
 	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
@@ -21,9 +18,7 @@ void TIM3_IRQHandler(void)    //TIM3定时中断服务函数
 				 if(++delay_50==10)	 delay_50=0,delay_flag=0;  //===给主函数提供50ms的精准延时
 			 }
 			 Encoder_A=Read_Encoder(4);  //获取电机A编码器的值
-			 position_A_last = position_A;
 			 position_A+=Encoder_A;  //速度积分得到位置
-			 ecd_speed = Encoder_A/0.005/1000.0*10.362;  //计算编码器
 			 Angle_Balance=Get_Adc_Average(8,10); //获取角度 取多次平均值
 			 Get_D_Angle_Balance();
 			 Key();//获取角度信息
@@ -36,22 +31,19 @@ void TIM3_IRQHandler(void)    //TIM3定时中断服务函数
 					}
 					else	if(Run_Way==2)  //手动起摆，手扶摆杆到平衡位置再开启
 					{
-//					Balance_Pwm=balance(Angle_Balance-ANGLE_MIDDLE); //倾角PD控制
-//					Basics_Position_KD=200;//人为修改PID参数
-//					Basics_Position_KP=20;
-//					if(++Position_Target>4)  Position_Pwm=Position(position_A),Position_Target=0;//位置控制
-//					Moto=Balance_Pwm-Position_Pwm;  //读取PD控制器输出PWM
-			
-						Moto=m_pwm_target;  //读取PD控制器输出PWM
+					Balance_Pwm=balance(Angle_Balance-ANGLE_MIDDLE); //倾角PD控制
+					Basics_Position_KD=200;//人为修改PID参数
+					Basics_Position_KP=20;
+					if(++Position_Target>4)  Position_Pwm=Position(position_A),Position_Target=0;//位置控制
+					Moto=Balance_Pwm-Position_Pwm;  //读取PD控制器输出PWM
 					}
 					Xianfu_Pwm();  //===PWM限幅 防止占空比100%带来的系统不稳定因素
-//					if(Turn_Off()==0)//判断有没有异常
+					if(Turn_Off()==0)//判断有没有异常
 					Set_Pwm(Moto); // 没有则驱动电机
-//					else
-//					Set_Pwm(0); //否则就关闭输出
+					else
+					Set_Pwm(0); //否则就关闭输出
 	  }
-//
-		else Set_Pwm(0); //如果Flag_Stop置1，关闭电机
+		  else Set_Pwm(0); //如果Flag_Stop置1，关闭电机
 	 		Find_Zero(); //找到限位开关和参考位置
 			Voltage=Get_Adc(ADC_Channel_9)*3.3*11*100/4096;            //获取电池电压			
 		}	 
@@ -86,7 +78,6 @@ int Position(int Encoder)
     static float Position_PWM,Last_Position,Position_Bias,Position_Differential;
     static float Position_Least;//最新速度
   	Position_Least =Encoder-Position_Zero; //===得到偏差
-		//Position_Least =Encoder-m_position_taiget; //===得到偏差
     Position_Bias *=0.8;		   
     Position_Bias += Position_Least*0.2;	  //===一阶低通滤波器  
 		Position_Differential=Position_Bias-Last_Position;//偏差的微分
@@ -150,12 +141,12 @@ u8 Turn_Off(void)
 			}	
 			else temp=0;//否则返回0
 			
-//			if((Inverted_Flag||Run_Way==2)&&( Angle_Balance<(ANGLE_MIDDLE-300)||Angle_Balance>(ANGLE_MIDDLE+300))  )//平衡之后如果摆杆下垂，自动关闭电机
-//			{
-//				Flag_Stop=1;//关闭标志位置1
-//				temp=1;//返回1
-//			}
-//      return temp;//返回
+			if((Inverted_Flag||Run_Way==2)&&( Angle_Balance<(ANGLE_MIDDLE-300)||Angle_Balance>(ANGLE_MIDDLE+300))  )//平衡之后如果摆杆下垂，自动关闭电机
+			{
+				Flag_Stop=1;//关闭标志位置1
+				temp=1;//返回1
+			}
+      return temp;//返回
 }
 
 /**************************************************************************
@@ -278,8 +269,8 @@ int Mean_Filter(int sensor)
 **************************************************************************/
 void Find_Zero(void)
 {
-	  
-	 
+	  static u8 flag;
+	 static float count;
 	 if(Run_Way==0)  //回到中位
 			 {
 				 if(flag==0)//触碰行程开关
@@ -296,17 +287,12 @@ void Find_Zero(void)
 							else	Moto=-Balance_Pwm+Position_Pwm;     //读取PD控制器输出PWM
 							if(Angle_Balance<(ANGLE_ORIGIN+300)&&Angle_Balance>(ANGLE_ORIGIN-300)&&(position_A>(POSITION_MIDDLE-2000)&&position_A<(POSITION_MIDDLE+2000)))  count++;
 					  	if(Angle_Balance<(ANGLE_ORIGIN+300)&&Angle_Balance>(ANGLE_ORIGIN-300))count+=0.1;
-							if(count>200){
-								Flag_Stop=0,flag=0,Moto=0,Target_Position=POSITION_MIDDLE-18000,count=0;//摆杆运动到中间位置，停止
-								if(m_pwm_target == -1) Run_Way=1;
-								else if(m_pwm_target == -2) Run_Way=3;
-							}	
+							if(count>200)	Run_Way=1,flag=0,Moto=0,Target_Position=POSITION_MIDDLE-18000;//摆杆运动到中间位置，停止
 				 }
 				  if(Moto>2500)	Moto=2500;   //控制位置闭环控制过程的速度
 					if(Moto<-2500)Moto=-2500;
 					Set_Pwm(Moto);//控制电机
 			 }
-			 
  }		
 /**************************************************************************
 函数功能：自动起摆
@@ -315,7 +301,7 @@ void Find_Zero(void)
 **************************************************************************/
 void Auto_run(void)
 {
-	  
+	 static float Ratio_Count;
 		if(Inverted_Flag==0)  //自动起摆第一步
 				{	
 					  Ratio_Count++;
@@ -323,7 +309,7 @@ void Auto_run(void)
 					   if(Ratio>2)Ratio=2;
 						if(D_Angle_Balance>-15&&D_Angle_Balance<15&&Run_Way_Flag2==1)//摆杆至最高处时候，反方向运动
 						{
-						 if(Angle_Balance>ANGLE_ORIGIN&&Angle_Balance<(ANGLE_MIDDLE))Target_Position=POSITION_MIDDLE+4000;//控制运动方向
+						 if(Angle_Balance>ANGLE_ORIGIN&&Angle_Balance<(ANGLE_MIDDLE))Target_Position=POSITION_MIDDLE+12000;//控制运动方向
 						 else Target_Position=POSITION_MIDDLE-4000;//另一个方向
 							Run_Way_Flag2=0;//等待下次换向指令
 						} 
@@ -332,7 +318,7 @@ void Auto_run(void)
 						if((Angle_Balance>(ANGLE_ORIGIN-300)&&Angle_Balance<(ANGLE_ORIGIN+300)))Run_Way_Flag2=1;//摆杆回中 可以在摆杆角速度接近0的时候执行下一次换向
 						}	
 						Moto=Position_PID(position_A,Target_Position); //位置闭环控制
-						if(Angle_Balance<(ANGLE_MIDDLE+150)&&Angle_Balance>(ANGLE_MIDDLE-150)&&(position_A>100000&&position_A<230000)) Inverted_Count2++; 
+						if(Angle_Balance<(ANGLE_MIDDLE+150)&&Angle_Balance>(ANGLE_MIDDLE-150)&&(position_A>210000&&position_A<230000)) Inverted_Count2++; 
 						else Inverted_Count2=0; //为防止误检测 多检测几次
 						if(Inverted_Count2>8)Inverted_Flag=1;	//摆动的过程如果摆杆接近平衡位置 滑块不在边缘位置 即可开启平衡	
             if(Moto>3000)	Moto=3000;   //控制位置闭环控制过程的速度

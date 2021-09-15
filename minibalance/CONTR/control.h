@@ -2,8 +2,8 @@
 #define __CONTROL_H
 #include "sys.h"
 #define FILTERING_TIMES  4
-#define POSITION_MIDDLE 160000
-#define POSITION_LEFT 90000
+#define POSITION_MIDDLE 220000
+#define POSITION_LEFT 200000
 #define POSITION_RIGHT 240000
 void Key(void);
 int balance(float angle);

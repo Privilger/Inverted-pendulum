@@ -24,13 +24,9 @@
 #define SWD_ENABLE         0X01
 #define JTAG_SWD_ENABLE    0X00	
 extern float show_data;
-extern float count;
 extern u8 Flag_Stop,delay_50,delay_flag,Run_Way,Inverted_Flag,Move_Direction;           //停止标志位 50ms精准演示标志位
-extern long Encoder_A,position_A,Position_Zero,position_A_last;    //编码器的脉冲计数
-extern long ecd_speed;
+extern long Encoder_A,position_A,Position_Zero;    //编码器的脉冲计数
 extern long Encoder_B,position_B;
-extern u8 flag;
-extern float Ratio_Count;
 extern long Position_L,Position_R,Position_M;
 extern int Moto,Balance_Pwm,Position_Pwm;          //电机PWM变量 应是Motor的 向Moto致敬	
 extern int Voltage;                                //电池电压采样相关的变量
@@ -39,8 +35,8 @@ extern float Balance_KP,Balance_KD,Position_KP,Position_KD;    //PID系数
 extern float Move_KP,Move_KI,Move_KD;                          //PID系数
 extern float Menu,Amplitude1,Amplitude2,Amplitude3,Amplitude4; //PID调试相关参数
 extern float Pitch,Roll,Yaw;                                   //MPU6050相关参数
-#define ANGLE_MIDDLE 3000
-#define ANGLE_ORIGIN 875
+#define ANGLE_MIDDLE 3150
+#define ANGLE_ORIGIN 1000
 
  
 
