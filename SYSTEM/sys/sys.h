@@ -1,53 +1,54 @@
 #ifndef __SYS_H
 #define __SYS_H	
-#include "stm32f10x.h"
-#include "delay.h"
-#include "usart.h"
-#include "show.h"
-#include "key.h"
-#include "led.h"
-#include "timer.h"
-#include "exti.h"
-#include "oled.h"
-#include "encoder.h"
-#include "motor.h"
-#include "adc.h"
-#include <string.h> 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include "DataScope_DP.h"
-//JTAG模式设置定义
-#define JTAG_SWD_DISABLE   0X02
-#define SWD_ENABLE         0X01
-#define JTAG_SWD_ENABLE    0X00	
-extern float show_data;
-extern float count;
-extern u8 Flag_Stop,delay_50,delay_flag,Run_Way,Inverted_Flag,Move_Direction;           //停止标志位 50ms精准演示标志位
-extern long Encoder_A,position_A,Position_Zero,position_A_last;    //编码器的脉冲计数
-extern long ecd_speed;
-extern long Encoder_B,position_B;
-extern u8 flag;
-extern float Ratio_Count;
-extern long Position_L,Position_R,Position_M;
-extern int Moto,Balance_Pwm,Position_Pwm;          //电机PWM变量 应是Motor的 向Moto致敬	
-extern int Voltage;                                //电池电压采样相关的变量
-extern float Angle_Balance,Last_Angle_Balance,D_Angle_Balance;   //角位移传感器数据
-extern float Balance_KP,Balance_KD,Position_KP,Position_KD;    //PID系数
-extern float Move_KP,Move_KI,Move_KD;                          //PID系数
-extern float Menu,Amplitude1,Amplitude2,Amplitude3,Amplitude4; //PID调试相关参数
-extern float Pitch,Roll,Yaw;                                   //MPU6050相关参数
-#define ANGLE_MIDDLE 3000
-#define ANGLE_ORIGIN 875
-
- 
+#include "stm32f1xx.h"
+//////////////////////////////////////////////////////////////////////////////////	 
+//本程序只供学习使用，未经作者许可，不得用于其它任何用途
+//ALIENTEK STM32开发板		   
+//正点原子@ALIENTEK
+//技术论坛:www.openedv.com
+//修改日期:2019/9/17
+//版本：V1.7
+//版权所有，盗版必究。
+//Copyright(C) 广州市星翼电子科技有限公司 2009-2019
+//All rights reserved
+////////////////////////////////////////////////////////////////////////////////// 	 
 
 //0,不支持ucos
 //1,支持ucos
 #define SYSTEM_SUPPORT_OS		0		//定义系统文件夹是否支持UCOS
-																	    
+	///////////////////////////////////////////////////////////////////////////////////
+//定义一些常用的数据类型短关键字 
+typedef int32_t  s32;
+typedef int16_t s16;
+typedef int8_t  s8;
+
+typedef const int32_t sc32;  
+typedef const int16_t sc16;  
+typedef const int8_t sc8;  
+
+typedef __IO int32_t  vs32;
+typedef __IO int16_t  vs16;
+typedef __IO int8_t   vs8;
+
+typedef __I int32_t vsc32;  
+typedef __I int16_t vsc16; 
+typedef __I int8_t vsc8;   
+
+typedef uint32_t  u32;
+typedef uint16_t u16;
+typedef uint8_t  u8;
+
+typedef const uint32_t uc32;  
+typedef const uint16_t uc16;  
+typedef const uint8_t uc8; 
+
+typedef __IO uint32_t  vu32;
+typedef __IO uint16_t vu16;
+typedef __IO uint8_t  vu8;
+
+typedef __I uint32_t vuc32;  
+typedef __I uint16_t vuc16; 
+typedef __I uint8_t vuc8;  																    
 	 
 //位带操作,实现51类似的GPIO控制功能
 //具体实现思想,参考<<CM3权威指南>>第五章(87页~92页).
@@ -95,11 +96,14 @@ extern float Pitch,Roll,Yaw;                                   //MPU6050相关参数
 #define PGout(n)   BIT_ADDR(GPIOG_ODR_Addr,n)  //输出 
 #define PGin(n)    BIT_ADDR(GPIOG_IDR_Addr,n)  //输入
 
+void Stm32_Clock_Init(u32 PLL);					//时钟系统配置
+
 //以下为汇编函数
 void WFI_SET(void);		//执行WFI指令
 void INTX_DISABLE(void);//关闭所有中断
 void INTX_ENABLE(void);	//开启所有中断
 void MSR_MSP(u32 addr);	//设置堆栈地址
-void JTAG_Set(u8 mode); //设置JTAG状态
 
+void Error_Handler(void);
+#define LED1 PBout(12)   	//LED1
 #endif
