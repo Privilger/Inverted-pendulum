@@ -99,7 +99,8 @@ int main(void)
 	HAL_TIM_PWM_Stop(&htim1,TIM_CHANNEL_1);
 	
 	TimeTick_Init(); 
-	TIM3_Init(10-1,8400-1);//1ms  
+	//TIM3_Init(10-1,8400-1);//1ms  
+	TIM3_Init(4000-1,18-1); // 1000us
 	UART_Init();
 	ADC_Init();
 	delay_ms(1000);
@@ -116,12 +117,12 @@ int main(void)
 	delay_ms(1000);
   while (1)
   {	
-		delay_ms(1);
+		// delay_ms(1);
 		Debug_SendTask();
 		Debug_ReceiveTask();
 		LimitA_Task();
 		LimitB_Task();
-		PositionReset_Task();
+		// PositionReset_Task();
 		PositionFindMid_Task();
   } 
 }

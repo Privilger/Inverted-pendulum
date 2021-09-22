@@ -188,7 +188,7 @@ void PositionFindMid_Task(void)
 			//-->起点
 			DirectionB=1;	
 			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);//AIN2					
-			USR_TIM_PWM_SetCompare(1500);
+			USR_TIM_PWM_SetCompare(2500);
 			HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);	
 			findmidstep=2;		
 		}	
@@ -197,7 +197,7 @@ void PositionFindMid_Task(void)
 			//起点-->找中点
 			DirectionB=2;							
 			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);//AIN2					
-			USR_TIM_PWM_SetCompare(5500);
+			USR_TIM_PWM_SetCompare(4500);
 			HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
 			findmidstep=4;	
 		}
@@ -232,7 +232,7 @@ void PositionReset_Task(void)
 		//-->起点
 		DirectionB=1;	
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);//AIN2					
-		USR_TIM_PWM_SetCompare(1500);
+		USR_TIM_PWM_SetCompare(2500);
 		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);	
 		resetstep=2;		
 	}
@@ -240,7 +240,7 @@ void PositionReset_Task(void)
 	{
 		DirectionB=2;							
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);//AIN2					
-		USR_TIM_PWM_SetCompare(5500);
+		USR_TIM_PWM_SetCompare(4500);
 		HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
 		resetstep=4;
 	}
@@ -283,7 +283,7 @@ void PositionReset_Task(void)
 					//-->向起点方向移动到中点
 					DirectionB=1;	
 					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);//AIN2					
-					USR_TIM_PWM_SetCompare(1500);
+					USR_TIM_PWM_SetCompare(2500);
 					HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);					
 					
 				}					
@@ -312,7 +312,7 @@ void PositionReset_Task(void)
 	}
 }
 
-
+u32 uarttime=0;
 
 //回调函数，定时器中断服务函数调用 1ms
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -324,6 +324,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(sTimeTick.TimeTickCnt>=dTimeTickCntMax)
 		{
 			sTimeTick.TimeTickCnt=0;	
+		}
+		
+		if(uarttime<=1000)
+		{
+			uarttime++;
 		}
 		
 		//if(DirectionB!=0)//运动才记位置

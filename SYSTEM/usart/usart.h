@@ -27,7 +27,7 @@ void DMA_NVIC_UART_Init(void);
 
 
 
-#define dDebugDataLenMax 				12
+#define dDebugDataLenMax 				20
 #define dDebugTxBuffLenMax 			100
 extern volatile u8 debugTxData[dDebugDataLenMax];					//琴键数据发送数据帧
 extern volatile u8 debugTxDataBuff[dDebugDataLenMax];

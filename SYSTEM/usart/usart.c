@@ -118,24 +118,70 @@ void Debug_DmaTxIrqHandler(void)
 		debugtxbusy=0;
 	}
 }
+
+#define dDebugSendTime 				10	//单位ms		串口数据间隔多久上报一次
+
 //12byte
+
+uint16_t pre_angular=0;
+int pole_angular_velocity=0;
+u32 pre_position=0;//上一时刻位置
+int cart_speed=0;
+
+void calc_cart_speed()
+{
+	// cart_speed = (int)(position - pre_position) / (dDebugSendTime * 0.001);
+	cart_speed = (int)(position - pre_position);
+	pre_position = position;
+}
+
+void calc_angle_speed()
+{
+	int diff = (int)(UserADCValue[0] - pre_angular);
+	if (diff > 3000){
+		diff -= 4000;
+	}
+	if (diff < -3000){
+		diff += 4000;
+	}
+	// pole_angular_velocity = diff / (dDebugSendTime * 0.001);
+	pole_angular_velocity = diff;
+	pre_angular = UserADCValue[0];
+}
+
 void Debug_SetData(void)	
 {
+	calc_cart_speed();
+	calc_angle_speed();
+	// 报头
 	debugTxData[0]=0x5A;
 	debugTxData[1]=0xA5;
-	
+	// cart 位置
 	debugTxData[2]=(position>>24)&0x000000ff;		
 	debugTxData[3]=(position>>16)&0x000000ff;
 	debugTxData[4]=(position>>8)&0x000000ff;
 	debugTxData[5]=(position)&0x000000ff;
-	
-	debugTxData[6]=(UserADCValue[0]>>8)&0x00ff;	//ADC1 HIGH BYTE   youyong
-	debugTxData[7]=(UserADCValue[0])&0x00ff;		//ADC1 Low BYTE
-	
-	debugTxData[8]=findmidflag;
-	debugTxData[9]=findmidflag;
-	debugTxData[10]=0x6B;
-	debugTxData[11]=0xB6;
+	// cart 速度
+	debugTxData[6]=(cart_speed>>24)&0x000000ff;		
+	debugTxData[7]=(cart_speed>>16)&0x000000ff;
+	debugTxData[8]=(cart_speed>>8)&0x000000ff;
+	debugTxData[9]=(cart_speed)&0x000000ff;
+	// pole 位置
+	debugTxData[10]=(UserADCValue[0]>>8)&0x00ff;	//ADC1 HIGH BYTE   youyong
+	debugTxData[11]=(UserADCValue[0])&0x00ff;		//ADC1 Low BYTE
+	// pole 速度
+	debugTxData[12]=(pole_angular_velocity>>24)&0x000000ff;		
+	debugTxData[13]=(pole_angular_velocity>>16)&0x000000ff;
+	debugTxData[14]=(pole_angular_velocity>>8)&0x000000ff;
+	debugTxData[15]=(pole_angular_velocity)&0x000000ff;
+	// reset flag
+	debugTxData[16]=findmidflag;
+	debugTxData[17]=findmidflag;
+	// 报尾
+	debugTxData[18]=0x0d;
+	debugTxData[19]=0x0a;
+	// debugTxData[10]=0x6B;
+	// debugTxData[11]=0xB6;
 }
 
 void Debug_SendData(void)
@@ -156,13 +202,18 @@ void Debug_SendData(void)
 	}
 }
 
-#define dDebugSendTime 				50	//单位ms		串口数据间隔多久上报一次
+
 u32 debugtime=0;
+extern u32 uarttime;
+
 void Debug_SendTask(void)	
 {
-	if(TimeTick_GetTimeDiff(sTimeTick.TimeTickCnt,debugtime) > dDebugSendTime)
+	
+	if(uarttime >= dDebugSendTime)
+	//if(TimeTick_GetTimeDiff(sTimeTick.TimeTickCnt,debugtime) > dDebugSendTime)
 	{
-		debugtime=TimeTick_GetNowTime();
+		uarttime=0;
+		//debugtime=TimeTick_GetNowTime();
 		Debug_SetData();
 		Debug_SendData();
 	}
